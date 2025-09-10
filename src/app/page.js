@@ -1,5 +1,10 @@
 import Image from "next/image";
+import Header from "./components/heder/page";
 
 export default function Home() {
-  return <div className="bg-white">this is home page</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 }
