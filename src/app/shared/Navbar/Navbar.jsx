@@ -11,10 +11,10 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const links = [
-    { name: "Bus", href: "/bus" },
-    { name: "Train", href: "/train" },
-    { name: "Ship", href: "/ship" },
-    { name: "Airplane", href: "/airplane" },
+    { name: "Bus", href: "/" },
+    { name: "Train", href: "/pages/train" },
+    { name: "Ship", href: "/pages/ship" },
+    { name: "Airplane", href: "/pages/airplane" },
   ];
 
   const authLinks = [
