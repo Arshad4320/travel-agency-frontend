@@ -6,10 +6,14 @@ import {
   ChevronUp,
   Menu,
   X,
-  Truck,
+  Bus,
   Train,
   Plane,
   Ship,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -25,13 +29,13 @@ import {
 } from "recharts";
 
 const DashboardLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true); // Large screen toggle
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [openMenus, setOpenMenus] = useState({});
 
   const menuItems = [
     {
       title: "Bus",
-      icon: <Truck size={20} />,
+      icon: <Bus size={20} />,
       subMenu: [
         { title: "Add Bus", href: "/dashboard/bus/add" },
         { title: "Bus List", href: "/dashboard/bus/list" },
@@ -78,28 +82,27 @@ const DashboardLayout = ({ children }) => {
     <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* Sidebar */}
       <div
-        className={`fixed z-20 inset-y-0 left-0 bg-white shadow-lg transform transition-all duration-300 ease-in-out ${
+        className={`bg-white shadow-lg transition-all duration-300 ease-in-out ${
           sidebarOpen ? "w-64" : "w-20"
-        } md:static md:inset-0`}
+        }`}
       >
-        <div className="flex flex-col h-full p-4">
-          {/* Sidebar toggle buttons */}
-          <div className="flex gap-2 mb-4">
-            <button
-              className="flex-1 px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm"
-              onClick={() => setSidebarOpen(true)}
-            >
-              Expand
-            </button>
-            <button
-              className="flex-1 px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm"
-              onClick={() => setSidebarOpen(false)}
-            >
-              Collapse
-            </button>
-          </div>
+        <div className="flex flex-col h-full p-4 relative">
+          {/* Toggle button শুধুমাত্র বড় ডিভাইসে */}
+          <button
+            className="hidden md:block absolute left-6 top-6 bg-white  p-1  hover:bg-gray-100"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            {sidebarOpen ? (
+              <div className="flex gap-1 items-center">
+                {" "}
+                <ChevronLeft size={20} /> <p>collapse</p>
+              </div>
+            ) : (
+              <ChevronRight size={20} />
+            )}
+          </button>
 
-          <nav className="flex-1 overflow-y-auto">
+          <nav className="flex-1 overflow-y-auto mt-10">
             {menuItems.map((item, idx) => (
               <div key={idx} className="mb-2">
                 <button
@@ -155,12 +158,8 @@ const DashboardLayout = ({ children }) => {
       </div>
 
       {/* Main content */}
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 overflow-auto ${
-          sidebarOpen ? "md:ml-64" : "md:ml-20"
-        }`}
-      >
-        {/* Mobile toggle */}
+      <div className="flex-1 flex flex-col overflow-auto">
+        {/* Mobile top bar */}
         <div className="md:hidden bg-white shadow px-4 py-3 flex justify-between items-center">
           <h2 className="text-xl font-semibold">Dashboard</h2>
           <button
@@ -171,32 +170,32 @@ const DashboardLayout = ({ children }) => {
           </button>
         </div>
 
-        {/* Dashboard content */}
+        {/* Content */}
         <div className="p-6 space-y-6 min-h-full">
           {/* Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-blue-100 p-4 rounded-lg shadow flex items-center gap-4 hover:shadow-lg transition-shadow">
-              <Truck size={32} className="text-blue-600" />
+            <div className="bg-blue-100 p-4 rounded-lg shadow flex items-center gap-4">
+              <Bus size={32} className="text-blue-600" />
               <div>
                 <h3 className="font-semibold text-lg">Total Buses</h3>
                 <p className="text-gray-700">25 Buses available</p>
               </div>
             </div>
-            <div className="bg-green-100 p-4 rounded-lg shadow flex items-center gap-4 hover:shadow-lg transition-shadow">
+            <div className="bg-green-100 p-4 rounded-lg shadow flex items-center gap-4">
               <Train size={32} className="text-green-600" />
               <div>
                 <h3 className="font-semibold text-lg">Total Trains</h3>
                 <p className="text-gray-700">12 Trains available</p>
               </div>
             </div>
-            <div className="bg-purple-100 p-4 rounded-lg shadow flex items-center gap-4 hover:shadow-lg transition-shadow">
+            <div className="bg-purple-100 p-4 rounded-lg shadow flex items-center gap-4">
               <Plane size={32} className="text-purple-600" />
               <div>
                 <h3 className="font-semibold text-lg">Total Airplanes</h3>
                 <p className="text-gray-700">8 Airplanes available</p>
               </div>
             </div>
-            <div className="bg-teal-100 p-4 rounded-lg shadow flex items-center gap-4 hover:shadow-lg transition-shadow">
+            <div className="bg-teal-100 p-4 rounded-lg shadow flex items-center gap-4">
               <Ship size={32} className="text-teal-600" />
               <div>
                 <h3 className="font-semibold text-lg">Total Ships</h3>
@@ -232,36 +231,15 @@ const DashboardLayout = ({ children }) => {
                   <YAxis />
                   <Tooltip />
                   <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-                  <Line
-                    type="monotone"
-                    dataKey="Buses"
-                    stroke="#3b82f6"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Trains"
-                    stroke="#10b981"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Planes"
-                    stroke="#8b5cf6"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Ships"
-                    stroke="#14b8a6"
-                    strokeWidth={2}
-                  />
+                  <Line type="monotone" dataKey="Buses" stroke="#3b82f6" />
+                  <Line type="monotone" dataKey="Trains" stroke="#10b981" />
+                  <Line type="monotone" dataKey="Planes" stroke="#8b5cf6" />
+                  <Line type="monotone" dataKey="Ships" stroke="#14b8a6" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Additional content */}
           {children}
         </div>
       </div>
