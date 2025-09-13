@@ -25,7 +25,10 @@ const DashboardLayout = ({ children }) => {
       icon: <Bus size={20} />,
       subMenu: [
         { title: "Add Transport", href: "/dashboard/transport/add-transport" },
-        { title: "Transport List", href: "/dashboard/transport/list" },
+        {
+          title: "Transport List",
+          href: "/dashboard/transport/transport-list",
+        },
       ],
     },
     {
