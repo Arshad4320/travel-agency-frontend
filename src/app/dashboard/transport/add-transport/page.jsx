@@ -1,33 +1,67 @@
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useCreateTransportMutation } from "@/app/redux/features/transport/transportApi";
 
 export default function AddTransportForm() {
+  const [createTransport, { isLoading }] = useCreateTransportMutation();
   const {
     register,
     handleSubmit,
     watch,
     reset,
     formState: { errors },
-    control,
   } = useForm();
 
   const transportType = watch("transportName"); // watch transport type
 
   const onSubmit = async (data) => {
     try {
-      if (data.amenities) {
-        data.amenities = data.amenities.split(",").map((a) => a.trim());
+      const formData = new FormData();
+
+      // Common fields
+      formData.append("transportNumber", data.transportNumber);
+      formData.append("providerName", data.providerName);
+      formData.append("transportName", data.transportName);
+      formData.append("from", data.from);
+      formData.append("to", data.to);
+      formData.append("departureTime", data.departureTime);
+      formData.append("arrivalTime", data.arrivalTime);
+      formData.append("price", data.price.toString());
+      if (data.seatsAvailable)
+        formData.append("seatsAvailable", data.seatsAvailable.toString());
+
+      // Conditional fields
+      if (transportType === "Airplane") {
+        if (data.baggageLimitKg)
+          formData.append("baggageLimitKg", data.baggageLimitKg.toString());
+        if (data.handLuggageKg)
+          formData.append("handLuggageKg", data.handLuggageKg.toString());
+        formData.append("inFlightMeal", data.inFlightMeal ? "true" : "false");
       }
 
-      const res = await fetch("/api/transports", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      if (transportType === "Bus" && data.busType)
+        formData.append("busType", data.busType);
+      if (transportType === "Train" && data.coachClass)
+        formData.append("coachClass", data.coachClass);
+      if (transportType === "Ship" && data.cabinType)
+        formData.append("cabinType", data.cabinType);
 
-      if (!res.ok) throw new Error("Failed to add transport");
+      // Amenities
+      if (data.amenities) {
+        const amenitiesStr = data.amenities
+          .split(",")
+          .map((a) => a.trim())
+          .join(",");
+        formData.append("amenities", amenitiesStr);
+      }
+
+      // File
+      if (data.transportImage && data.transportImage[0]) {
+        formData.append("transportImage", data.transportImage[0]);
+      }
+
+      await createTransport(formData).unwrap();
 
       alert("✅ Transport added successfully!");
       reset();
@@ -61,6 +95,7 @@ export default function AddTransportForm() {
               <option value="Train">🚆 Train</option>
             </select>
           </div>
+
           {/* Transport Number */}
           <div>
             <label className="block font-medium mb-2 text-gray-700">
@@ -93,12 +128,13 @@ export default function AddTransportForm() {
           {/* Transport Image */}
           <div>
             <label className="block font-medium mb-2 text-gray-700">
-              Transport Image URL
+              Transport Image
             </label>
             <input
+              type="file"
               {...register("transportImage")}
               className="w-full border border-gray-200 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-              placeholder="https://example.com/image.jpg"
+              accept="image/*"
             />
           </div>
 
@@ -122,7 +158,7 @@ export default function AddTransportForm() {
             />
           </div>
 
-          {/* Departure Time */}
+          {/* Departure & Arrival */}
           <div>
             <label className="block font-medium mb-2 text-gray-700">
               Departure Time
@@ -133,8 +169,6 @@ export default function AddTransportForm() {
               className="w-full border border-gray-200 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
             />
           </div>
-
-          {/* Arrival Time */}
           <div>
             <label className="block font-medium mb-2 text-gray-700">
               Arrival Time
@@ -175,7 +209,7 @@ export default function AddTransportForm() {
             />
           </div>
 
-          {/* Conditional Fields */}
+          {/* Conditional fields */}
           {transportType === "Airplane" && (
             <>
               <div>
