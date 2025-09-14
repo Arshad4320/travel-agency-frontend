@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const AirplaneHeader = () => {
@@ -21,7 +21,7 @@ const AirplaneHeader = () => {
     const query = new URLSearchParams();
     if (from) query.append("from", from);
     if (to) query.append("to", to);
-    if (data) query.append("data", data);
+    if (date) query.append("date", date);
     query.append("transportType", "airplane");
     router.push(`/search?${query.toString()}`);
   };
