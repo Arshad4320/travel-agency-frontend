@@ -19,8 +19,19 @@ const Header = () => {
   };
 
   return (
-    <section className="bg-green-600 text-white py-20 px-4">
-      <div className="max-w-7xl mx-auto text-center flex flex-col items-center">
+    <section className="relative w-full min-h-cover">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1527259472076-72d783997a85?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0"
+          alt="Bus background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 py-24 px-4 flex flex-col items-center text-center text-white">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
           Travel Anywhere, Anytime
         </h1>
@@ -31,24 +42,24 @@ const Header = () => {
             placeholder="From"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-md border border-green-300"
+            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
           />
           <input
             type="text"
             placeholder="To"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-md border border-green-300"
+            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
           />
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-md border border-green-300"
+            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
           />
           <button
             onClick={handleSearch}
-            className="bg-green-600 text-white px-6 py-2 rounded-md font-semibold"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
           >
             Search
           </button>

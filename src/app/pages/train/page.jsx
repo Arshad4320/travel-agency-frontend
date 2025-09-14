@@ -12,11 +12,11 @@ const page = () => {
   };
 
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full min-h-cover">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1505483531331-fc3cf89fd382?auto=format&fit=crop&w=1470&q=80"
+          src="https://images.unsplash.com/flagged/photo-1550719723-8602e87f2dc8?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Train background"
           className="w-full h-full object-cover"
         />

@@ -27,7 +27,7 @@ const AirplaneHeader = () => {
   };
 
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full min-h-cover">
       {/* ✅ Background Image (Airplane) */}
       <div className="absolute inset-0">
         <img
