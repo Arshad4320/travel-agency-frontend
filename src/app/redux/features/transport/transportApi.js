@@ -12,11 +12,20 @@ export const transportApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["transport"],
     }),
-
     getTransports: builder.query({
-      query: () => ({
-        url: "/transport",
-      }),
+      query: ({ search, from, to, date, transportType }) => {
+        const params = new URLSearchParams();
+
+        if (search) params.append("search", search);
+        if (from) params.append("from", from);
+        if (to) params.append("to", to);
+        if (date) params.append("date", date);
+        if (transportType) params.append("transportType", transportType);
+
+        return {
+          url: `/transport?${params.toString()}`,
+        };
+      },
       providesTags: ["transport"],
     }),
 
