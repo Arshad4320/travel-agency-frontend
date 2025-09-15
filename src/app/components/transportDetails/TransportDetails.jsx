@@ -1,31 +1,38 @@
 "use client";
-import { Luggage, Briefcase } from "lucide-react";
+import {
+  Luggage,
+  Briefcase,
+  Hamburger,
+  AirVent,
+  BedDouble,
+} from "lucide-react";
 
 const TransportDetails = ({ transport }) => {
   switch (transport.transportName) {
-    case "plane":
+    case "Airplane":
       return (
         <div className="flex flex-col gap-2 mt-2">
           <div className="flex gap-2 items-center">
             <Luggage size={20} /> <span>{transport.baggageLimitKg} kg</span>
             <Briefcase size={20} /> <span>{transport.handLuggageKg} kg</span>
+            <Hamburger size={20} />{" "}
+            {transport.inFlightMeal && <span>In-flight Meal Available</span>}
           </div>
-          {transport.inFlightMeal && <p>In-flight Meal Available</p>}
         </div>
       );
-    case "bus":
+    case "Bus":
       return (
-        <div className="mt-2">
-          <p>Bus Type: {transport.busType}</p>
+        <div className="mt-2 flex gap-2 items-center">
+          <AirVent size={24} /> <span> {transport.busType}</span>
         </div>
       );
-    case "train":
+    case "Train":
       return (
-        <div className="mt-2">
-          <p>Coach Class: {transport.coachClass}</p>
+        <div className="mt-2 flex gap-2 items-center">
+          <BedDouble size={20} /> {transport.coachClass}
         </div>
       );
-    case "ship":
+    case "Ship":
       return (
         <div className="mt-2">
           <p>Cabin Type: {transport.cabinType}</p>
