@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Search, MapPin, Calendar } from "lucide-react";
+import Title from "../Title";
 
 const Header = () => {
   const [from, setFrom] = useState("");
@@ -14,54 +16,72 @@ const Header = () => {
     if (to) query.append("to", to);
     if (date) query.append("date", date);
     query.append("transportType", "bus"); // always bus
-
     router.push(`/search?${query.toString()}`);
   };
 
   return (
-    <section className="relative w-full min-h-cover">
+    <section className="relative w-full min-h-[85vh] flex items-center justify-center">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1527259472076-72d783997a85?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0"
+          src="https://images.unsplash.com/photo-1527259472076-72d783997a85?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0"
           alt="Bus background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 py-24 px-4 flex flex-col items-center text-center text-white">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Travel Anywhere, Anytime
-        </h1>
+      <div className="relative z-10 w-full max-w-5xl text-center px-4">
+        {/* Title */}
+        <Title
+          text="Book your bus tickets easily and enjoy a safe journey."
+          heading="Travel Anywhere, Anytime"
+        />
 
-        <div className="w-full max-w-3xl bg-white text-black rounded-md shadow-lg p-4 flex flex-col md:flex-row gap-3">
-          <input
-            type="text"
-            placeholder="From"
-            value={from}
-            onChange={(e) => setFrom(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
-          />
-          <input
-            type="text"
-            placeholder="To"
-            value={to}
-            onChange={(e) => setTo(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
-          />
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
-          />
+        {/* Search Form */}
+        <div className="mt-8 w-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 flex flex-col md:flex-row gap-4 items-center">
+          {/* From */}
+          <div className="flex items-center gap-2 w-full md:flex-1 bg-gray-50 px-3 py-2 rounded-lg border focus-within:ring-2 focus-within:ring-green-500">
+            <MapPin className="text-green-600 shrink-0" />
+            <input
+              type="text"
+              placeholder="From"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              className="flex-1 bg-transparent focus:outline-none text-gray-800 placeholder-gray-500"
+            />
+          </div>
+
+          {/* To */}
+          <div className="flex items-center gap-2 w-full md:flex-1 bg-gray-50 px-3 py-2 rounded-lg border focus-within:ring-2 focus-within:ring-green-500">
+            <MapPin className="text-green-600 shrink-0" />
+            <input
+              type="text"
+              placeholder="To"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              className="flex-1 bg-transparent focus:outline-none text-gray-800 placeholder-gray-500"
+            />
+          </div>
+
+          {/* Date */}
+          <div className="flex items-center gap-2 w-full md:flex-1 bg-gray-50 px-3 py-2 rounded-lg border focus-within:ring-2 focus-within:ring-green-500">
+            <Calendar className="text-green-600 shrink-0" />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="flex-1 bg-transparent focus:outline-none text-gray-800"
+            />
+          </div>
+
+          {/* Search Button */}
           <button
             onClick={handleSearch}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
+            className="flex items-center justify-center gap-2 w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg"
           >
-            Search
+            <Search size={18} /> Search
           </button>
         </div>
       </div>

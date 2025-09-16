@@ -1,21 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { MapPin, CalendarDays, PlaneTakeoff } from "lucide-react";
 
 const AirplaneHeader = () => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
   const router = useRouter();
-  //  const handleSearch = () => {
-  //    const query = new URLSearchParams();
-  //    if (from) query.append("from", from);
-  //    if (to) query.append("to", to);
-  //    if (date) query.append("date", date);
-  //    query.append("transportType", "bus"); // always bus
-
-  //    router.push(`/search?${query.toString()}`);
-  //  };
 
   const handleSearch = () => {
     const query = new URLSearchParams();
@@ -31,7 +23,7 @@ const AirplaneHeader = () => {
       {/* ✅ Background Image (Airplane) */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1529074963764-98f45c47344b?auto=format&fit=crop&w=1470&q=80"
+          src="https://images.unsplash.com/photo-1529074963764-98f45c47344b?auto=format&fit=crop&w=1600&q=80"
           alt="Airplane background"
           className="w-full h-full object-cover"
         />
@@ -40,41 +32,51 @@ const AirplaneHeader = () => {
 
       {/* Header Section */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center text-white py-24 px-6">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center gap-3">
           Find Your Flight
         </h1>
 
         {/* Search Box */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row gap-4 items-center w-full max-w-3xl">
-          <input
-            type="text"
-            placeholder="From (City / Airport)"
-            value={from}
-            onChange={(e) => {
-              setFrom(e.target.value);
-            }}
-            className="w-full md:w-1/4 px-4 py-2 rounded-lg border focus:outline-none text-black"
-          />
-          <input
-            type="text"
-            placeholder="To (City / Airport)"
-            value={to}
-            onChange={(e) => {
-              setTo(e.target.value);
-            }}
-            className="w-full md:w-1/4 px-4 py-2 rounded-lg border focus:outline-none text-black"
-          />
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
-            className="w-full md:w-1/4 px-4 py-2 rounded-lg border focus:outline-none text-black"
-          />
+        <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl p-6 flex flex-col md:flex-row gap-4 items-center w-full max-w-4xl">
+          {/* From Input */}
+          <div className="relative w-full md:w-1/4">
+            <MapPin className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="From (City / Airport)"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              className="w-full px-10 py-2 rounded-lg border focus:ring-2 focus:ring-blue-400 focus:outline-none text-black"
+            />
+          </div>
+
+          {/* To Input */}
+          <div className="relative w-full md:w-1/4">
+            <MapPin className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="To (City / Airport)"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              className="w-full px-10 py-2 rounded-lg border focus:ring-2 focus:ring-blue-400 focus:outline-none text-black"
+            />
+          </div>
+
+          {/* Date Input */}
+          <div className="relative w-full md:w-1/4">
+            <CalendarDays className="absolute left-3 top-3 text-gray-500 w-5 h-5" />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full px-10 py-2 rounded-lg border focus:ring-2 focus:ring-blue-400 focus:outline-none text-black"
+            />
+          </div>
+
+          {/* Search Button */}
           <button
             onClick={handleSearch}
-            className="w-full md:w-1/4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+            className="w-full md:w-1/4 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-6 py-2 rounded-lg font-semibold shadow-lg transition-all"
           >
             Search
           </button>

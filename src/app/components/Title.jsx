@@ -1,11 +1,13 @@
 import React from "react";
 
-const Title = ({ text }) => {
+const Title = ({ text, heading }) => {
   return (
-    <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 relative inline-block">
-      {text}
-      <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-16 h-1 bg-blue-500 rounded-full"></span>
-    </h2>
+    <div>
+      <h1 className="text-3xl md:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
+        {heading}
+      </h1>
+      <p className="text-lg md:text-xl text-gray-200 mb-8">{text}</p>
+    </div>
   );
 };
 
