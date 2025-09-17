@@ -5,7 +5,7 @@ const HeaderImage = ({ src }) => {
     <div className="absolute inset-0">
       <img src={src} className="w-full h-full object-cover" loading="lazy" />
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
+      <div className="absolute inset-0 bg-black/60" />
     </div>
   );
 };

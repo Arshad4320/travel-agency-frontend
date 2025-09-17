@@ -29,7 +29,7 @@ const Navbar = () => {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-green-500">
+        <Link href="/" className="text-2xl font-bold text-blue-500">
           Travel Agency
         </Link>
 
@@ -41,8 +41,8 @@ const Navbar = () => {
               href={link.href}
               className={`relative  font-medium px-3 py-2 transition-colors ${
                 isActive(link.href)
-                  ? "text-green-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-green-600"
-                  : "text-gray-700 hover:text-green-700"
+                  ? "text-blue-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
+                  : "text-gray-700 hover:text-blue-700"
               }`}
             >
               {link.name}
@@ -58,8 +58,8 @@ const Navbar = () => {
               href={link.href}
               className={`relative font-medium px-3 py-2 transition-colors ${
                 isActive(link.href)
-                  ? "text-green-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-green-600"
-                  : "text-gray-700 hover:text-green-700"
+                  ? "text-blue-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
+                  : "text-gray-700 hover:text-blue-700"
               }`}
             >
               {link.name}
@@ -102,7 +102,7 @@ const Navbar = () => {
             >
               {/* Header with Close Button */}
               <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-bold text-green-500">Menu</span>
+                <span className="text-lg font-bold text-blue-500">Menu</span>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="p-2 rounded hover:bg-gray-100"
@@ -118,8 +118,8 @@ const Navbar = () => {
                     href={link.href}
                     className={`text-base font-medium px-2 py-2 transition-colors ${
                       isActive(link.href)
-                        ? "text-green-700"
-                        : "text-gray-700 hover:text-green-700"
+                        ? "text-blue-700"
+                        : "text-gray-700 hover:text-blue-700"
                     }`}
                     onClick={() => setIsOpen(false)}
                   >

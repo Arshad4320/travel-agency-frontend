@@ -31,7 +31,7 @@
 //           {data.data.map((t) => (
 //             <div
 //               key={t._id}
-//               className="p-3 bg-white rounded-lg border-b border-b-green-300 border-r border-r-green-300 shadow hover:shadow-lg transition"
+//               className="p-3 bg-white rounded-lg border-b border-b-blue-300 border-r border-r-blue-300 shadow hover:shadow-lg transition"
 //             >
 //               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 //                 {/* Image */}
@@ -80,12 +80,12 @@
 //                     <TransportDetails transport={t} />
 //                   </div>
 
-//                   <p className="mt-2 font-bold text-green-600">
+//                   <p className="mt-2 font-bold text-blue-600">
 //                     <span className="text-2xl font-semibold">৳</span> {t.price}
 //                   </p>
 
 //                   <div className="flex md:justify-end">
-//                     <button className="px-2 mt-2 rounded-md py-2 bg-green-600 hover:bg-green-500 text-white">
+//                     <button className="px-2 mt-2 rounded-md py-2 bg-blue-600 hover:bg-blue-500 text-white">
 //                       Booking
 //                     </button>
 //                   </div>
@@ -141,7 +141,7 @@ const SearchPage = () => {
           {filteredTransports.map((t) => (
             <div
               key={t._id}
-              className="p-3 bg-white rounded-lg border-b border-b-green-300 border-r border-r-green-300 shadow hover:shadow-lg transition"
+              className="p-3 bg-white rounded-lg border-b border-b-blue-300 border-r border-r-blue-300 shadow hover:shadow-lg transition"
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Image */}
@@ -190,12 +190,12 @@ const SearchPage = () => {
                     <TransportDetails transport={t} />
                   </div>
 
-                  <p className="mt-2 font-bold text-green-600">
+                  <p className="mt-2 font-bold text-blue-600">
                     <span className="text-2xl font-semibold">৳</span> {t.price}
                   </p>
 
                   <div className="flex md:justify-end">
-                    <button className="px-2 mt-2 rounded-md py-2 bg-green-600 hover:bg-green-500 text-white">
+                    <button className="px-2 mt-2 rounded-md py-2 bg-blue-600 hover:bg-blue-500 text-white">
                       Booking
                     </button>
                   </div>

@@ -317,7 +317,7 @@ export default function AddTransportForm() {
         <div className="pt-2">
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 active:scale-95 text-white rounded-lg p-3 font-semibold transition-all shadow-lg"
+            className="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg p-3 font-semibold transition-all shadow-lg"
           >
             ➕ Add Transport
           </button>

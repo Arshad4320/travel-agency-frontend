@@ -10,8 +10,8 @@ const Cards = () => {
           <p className="text-gray-700">25 Buses available</p>
         </div>
       </div>
-      <div className="bg-green-100 p-4 rounded-lg shadow flex items-center gap-4">
-        <Train size={32} className="text-green-600" />
+      <div className="bg-blue-100 p-4 rounded-lg shadow flex items-center gap-4">
+        <Train size={32} className="text-blue-600" />
         <div>
           <h3 className="font-semibold text-lg">Total Trains</h3>
           <p className="text-gray-700">12 Trains available</p>
