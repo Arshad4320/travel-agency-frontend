@@ -209,44 +209,6 @@ export default function AddTransportForm() {
             />
           </div>
 
-          {/* Conditional fields */}
-          {transportType === "Airplane" && (
-            <>
-              <div>
-                <label className="block font-medium mb-2 text-gray-700">
-                  Baggage Limit (Kg)
-                </label>
-                <input
-                  type="number"
-                  {...register("baggageLimitKg", { valueAsNumber: true })}
-                  className="w-full border border-gray-200 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                  placeholder="30"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-2 text-gray-700">
-                  Hand Luggage (Kg)
-                </label>
-                <input
-                  type="number"
-                  {...register("handLuggageKg", { valueAsNumber: true })}
-                  className="w-full border border-gray-200 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                  placeholder="7"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-2 text-gray-700">
-                  In-Flight Meal
-                </label>
-                <input
-                  type="checkbox"
-                  {...register("inFlightMeal")}
-                  className="mr-2"
-                />
-              </div>
-            </>
-          )}
-
           {transportType === "Bus" && (
             <div>
               <label className="block font-medium mb-2 text-gray-700">
@@ -299,9 +261,46 @@ export default function AddTransportForm() {
               </select>
             </div>
           )}
+          {/* Conditional fields */}
+          {transportType === "Airplane" && (
+            <>
+              <div>
+                <label className="block font-medium mb-2 text-gray-700">
+                  Baggage Limit (Kg)
+                </label>
+                <input
+                  type="number"
+                  {...register("baggageLimitKg", { valueAsNumber: true })}
+                  className="w-full border border-gray-200 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                  placeholder="30"
+                />
+              </div>
+              <div>
+                <label className="block font-medium mb-2 text-gray-700">
+                  Hand Luggage (Kg)
+                </label>
+                <input
+                  type="number"
+                  {...register("handLuggageKg", { valueAsNumber: true })}
+                  className="w-full border border-gray-200 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                  placeholder="7"
+                />
+              </div>
+              <div>
+                <label className="block font-medium mb-2 text-gray-700">
+                  In-Flight Meal
+                </label>
+                <input
+                  type="checkbox"
+                  {...register("inFlightMeal")}
+                  className="mr-2"
+                />
+              </div>
+            </>
+          )}
 
           {/* Amenities */}
-          <div className="lg:col-span-4">
+          <div className="">
             <label className="block font-medium mb-2 text-gray-700">
               Amenities (comma separated)
             </label>
@@ -314,12 +313,13 @@ export default function AddTransportForm() {
         </div>
 
         {/* Submit */}
-        <div className="pt-2">
+        <div className="pt-4 ">
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg p-3 font-semibold transition-all shadow-lg"
           >
-            ➕ Add Transport
+            {isLoading ? "⏳ Adding..." : "➕ Add Transport"}
           </button>
         </div>
       </form>

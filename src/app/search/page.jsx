@@ -108,6 +108,7 @@ import { useSearchParams } from "next/navigation";
 import { useGetTransportsQuery } from "@/app/redux/features/transport/transportApi";
 import { Clock, MapPin, User } from "lucide-react";
 import TransportDetails from "../components/transportDetails/TransportDetails";
+import Button from "../components/button/Button";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -195,9 +196,10 @@ const SearchPage = () => {
                   </p>
 
                   <div className="flex md:justify-end">
-                    <button className="px-2 mt-2 rounded-md py-2 bg-blue-600 hover:bg-blue-500 text-white">
+                    {/* <button className="px-2 mt-2 rounded-md py-2 bg-blue-600 hover:bg-blue-500 text-white">
                       Booking
-                    </button>
+                    </button> */}
+                    <Button title={"Booking"} />
                   </div>
                 </div>
               </div>
