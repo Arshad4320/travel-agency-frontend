@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, Calendar } from "lucide-react";
 import Title from "../Title";
+import Button from "../button/Button";
 
 const Header = () => {
   const [from, setFrom] = useState("");
@@ -77,12 +78,7 @@ const Header = () => {
           </div>
 
           {/* Search Button */}
-          <button
-            onClick={handleSearch}
-            className="flex items-center justify-center gap-2 w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg"
-          >
-            <Search size={18} /> Search
-          </button>
+          <Button onClick={handleSearch} title={"Search"} />
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { MapPin, CalendarDays, PlaneTakeoff } from "lucide-react";
+import Button from "../button/Button";
 
 const AirplaneHeader = () => {
   const [from, setFrom] = useState("");
@@ -74,12 +75,7 @@ const AirplaneHeader = () => {
           </div>
 
           {/* Search Button */}
-          <button
-            onClick={handleSearch}
-            className="w-full md:w-1/4 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-6 py-2 rounded-lg font-semibold shadow-lg transition-all"
-          >
-            Search
-          </button>
+          <Button onClick={handleSearch} title={"Search"} />
         </div>
       </div>
     </div>
