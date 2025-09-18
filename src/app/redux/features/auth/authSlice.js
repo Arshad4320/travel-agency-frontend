@@ -18,9 +18,9 @@ const authSlice = createSlice({
           const decoded = jwtDecode(token);
           state.token = token;
           state.user = {
-            id: decoded?.id,
+            id: decoded?.id || decoded?._id,
             name: decoded?.name || "User",
-            role: decoded?.role,
+            role: decoded?.role || "user",
           };
         } catch (error) {
           state.token = null;
@@ -30,6 +30,12 @@ const authSlice = createSlice({
     },
 
     setUser: (state, action) => {
+      if (!action.payload) {
+        state.user = null;
+        state.token = null;
+        return;
+      }
+
       const { id, name, role } = action.payload;
       state.user = {
         id,
@@ -47,5 +53,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { loadUserFromToken, logout, setUser } = authSlice.actions;
+export const { loadUserFromToken, setUser, logout } = authSlice.actions;
 export default authSlice.reducer;

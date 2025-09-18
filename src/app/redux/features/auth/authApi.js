@@ -6,7 +6,7 @@ export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (data) => ({
-        url: "auth/register",
+        url: "/user/create-user",
         method: "POST",
         body: data,
       }),
@@ -15,31 +15,17 @@ export const authApi = apiSlice.injectEndpoints({
 
     login: builder.mutation({
       query: (data) => ({
-        url: "auth/login",
+        url: "/user/login-user",
         method: "POST",
         body: data,
       }),
       invalidatesTags: ["Auth", "User"],
     }),
 
-    logout: builder.mutation({
-      query: () => ({
-        url: "auth/logout",
-        method: "POST",
-      }),
-      invalidatesTags: ["Auth", "User", "Dashboard"],
-    }),
-
-    getVideos: builder.query({
-      query: () => ({
-        url: "auth/videos",
-      }),
-      providesTags: ["User"],
-    }),
-
+    // Admin dashboard data (protected route)
     getAdminDashboard: builder.query({
       query: () => ({
-        url: "auth/admin/dashboard",
+        url: "/auth/admin/dashboard",
       }),
       providesTags: ["Dashboard"],
     }),
@@ -49,7 +35,7 @@ export const authApi = apiSlice.injectEndpoints({
 export const {
   useRegisterMutation,
   useLoginMutation,
-  useLogoutMutation,
+
   useGetVideosQuery,
   useGetAdminDashboardQuery,
 } = authApi;

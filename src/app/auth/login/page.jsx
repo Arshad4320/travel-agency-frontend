@@ -1,51 +1,53 @@
 "use client";
 
+import { useLoginMutation } from "@/app/redux/features/auth/authApi";
+import { setUser } from "@/app/redux/features/auth/authSlice";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 
 export default function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
     reset,
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [loginUser, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     setServerError("");
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const result = await loginUser(data).unwrap();
 
-      const result = await res.json();
+      const token = result?.token || result?.data?.token;
+      const user = result?.user || result?.data?.user;
+      console.log(token, user);
+      if (token && user) {
+        Cookies.set("token", token, { expires: 7 });
 
-      if (!res.ok) {
-        // সার্ভার সাইড ভ্যালিডেশন/এরর দেখানোর উদাহরণ
-        if (result?.errors) {
-          // ধরলে result.errors একটি object বা array হতে পারে — এখানে সাধারণ হ্যান্ডলিং দেখানো হলো
-          setServerError(result.message || "Login failed");
-        } else {
-          setServerError(result.message || "Login failed");
-        }
-        return;
+        dispatch(
+          setUser({
+            id: user._id,
+            name: user.name,
+            role: user.role,
+          })
+        );
+
+        reset();
+        alert("Login successful ✅");
+      } else {
+        setServerError(result?.message || "Invalid response from server");
       }
-
-      // সফল হলে token/ইউজার সংরক্ষণ ইত্যাদি করো
-      // localStorage.setItem("token", result.token);
-      // redirect বা state আপডেট করো
-      reset(); // ফর্ম রিসেট (ঐচ্ছিক)
-      alert("Login successful");
     } catch (err) {
       console.error(err);
-      setServerError("কিছু ভুল হয়েছে — পরে আবার চেষ্টা করুন");
+      setServerError(err?.data?.message || "Login failed. Try again!");
     }
   };
 
@@ -74,7 +76,7 @@ export default function LoginForm() {
               required: "Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                message: "please enter valid email",
+                message: "Please enter valid email",
               },
             })}
             className={`w-full px-4 py-2 rounded-lg border ${
@@ -97,7 +99,7 @@ export default function LoginForm() {
                 required: "Password required",
                 minLength: {
                   value: 6,
-                  message: "please enter 6 crectears",
+                  message: "Password must be at least 6 characters",
                 },
               })}
               className={`w-full px-4 py-2 rounded-lg border ${
@@ -118,33 +120,18 @@ export default function LoginForm() {
             </p>
           )}
 
-          {/* Remember & Forgot */}
-          {/* <div className="flex items-center justify-between mt-4 mb-6">
-            <label className="flex items-center text-sm gap-2">
-              <input
-                type="checkbox"
-                {...register("remember")}
-                className="w-4 h-4 rounded border-gray-300"
-              />
-              Remember me
-            </label>
-            <a href="/forgot-password" className="text-sm text-indigo-600">
-              Forgot?
-            </a>
-          </div> */}
-
           {/* Submit */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             className="w-full mt-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold shadow hover:brightness-95 disabled:opacity-60"
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            {isSubmitting || isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <div className="mt-6 text-sm text-center text-gray-600">
-          Are you new user ?{" "}
+          Are you a new user?{" "}
           <Link href={"/auth/register"} className="text-indigo-600 font-medium">
             Please create account
           </Link>

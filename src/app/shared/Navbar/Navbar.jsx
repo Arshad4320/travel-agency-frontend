@@ -1,25 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { setUser } from "@/app/redux/features/auth/authSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        dispatch(
+          setUser({
+            id: decoded.id,
+            email: decoded.email,
+            role: decoded.role,
+            name: decoded.name,
+          })
+        );
+      } catch (err) {
+        console.error("Invalid token", err);
+        Cookies.remove("token");
+        dispatch(setUser(null));
+      }
+    } else {
+      dispatch(setUser(null));
+    }
+  }, [dispatch]);
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    dispatch(setUser(null));
+    router.push("/auth/login");
+  };
 
   const links = [
     { name: "Bus", href: "/" },
     { name: "Train", href: "/pages/train" },
     { name: "Ship", href: "/pages/ship" },
     { name: "Airplane", href: "/pages/airplane" },
-  ];
-
-  const authLinks = [
-    { name: "Login", href: "/login" },
-    { name: "Dashboard", href: "/dashboard" },
   ];
 
   const isActive = (href) =>
@@ -39,7 +72,7 @@ const Navbar = () => {
             <Link
               key={link.href}
               href={link.href}
-              className={`relative  font-medium px-3 py-2 transition-colors ${
+              className={`relative font-medium px-3 py-2 transition-colors ${
                 isActive(link.href)
                   ? "text-blue-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
                   : "text-gray-700 hover:text-blue-700"
@@ -52,19 +85,38 @@ const Navbar = () => {
 
         {/* Right side */}
         <div className="hidden md:flex items-center gap-4">
-          {authLinks.map((link) => (
+          {!user ? (
             <Link
-              key={link.href}
-              href={link.href}
+              href="/auth/login"
               className={`relative font-medium px-3 py-2 transition-colors ${
-                isActive(link.href)
+                isActive("/auth/login")
                   ? "text-blue-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
                   : "text-gray-700 hover:text-blue-700"
               }`}
             >
-              {link.name}
+              Login
             </Link>
-          ))}
+          ) : (
+            <>
+              <Link
+                href="/dashboard"
+                className={`relative font-medium px-3 py-2 transition-colors ${
+                  isActive("/dashboard")
+                    ? "text-blue-700 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
+                    : "text-gray-700 hover:text-blue-700"
+                }`}
+              >
+                Dashboard
+              </Link>
+              <span className="font-medium text-gray-800">{user.name}</span>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 rounded-md bg-red-500 text-white hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
 
         {/* Mobile Hamburger */}
@@ -100,19 +152,8 @@ const Navbar = () => {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 flex flex-col p-5"
             >
-              {/* Header with Close Button */}
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-bold text-blue-500">Menu</span>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-2 rounded hover:bg-gray-100"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-
               <div className="flex flex-col gap-3">
-                {[...links, ...authLinks].map((link) => (
+                {links.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -126,6 +167,36 @@ const Navbar = () => {
                     {link.name}
                   </Link>
                 ))}
+
+                {!user ? (
+                  <Link
+                    href="/auth/login"
+                    className="text-base font-medium px-2 py-2 transition-colors text-gray-700 hover:text-blue-700"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Login
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="text-base font-medium px-2 py-2 transition-colors text-gray-700 hover:text-blue-700"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <span className="text-gray-800 px-2">{user.name}</span>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsOpen(false);
+                      }}
+                      className="px-3 py-2 rounded-md bg-red-500 text-white hover:bg-red-600"
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
               </div>
             </motion.div>
           </>

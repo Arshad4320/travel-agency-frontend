@@ -1,5 +1,6 @@
 "use client";
 
+import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,39 +9,37 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm();
 
+  const [registerUser, { isLoading }] = useRegisterMutation();
   const [serverError, setServerError] = useState("");
 
   const onSubmit = async (data) => {
     setServerError("");
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await registerUser(data).unwrap();
 
-      const result = await res.json();
-
-      if (!res.ok) {
-        setServerError(result.message || "Registration failed");
+      if (res?.error) {
+        setServerError(res.error?.message || "Registration failed");
         return;
       }
-
-      alert("User registered successfully ✅");
+      if (res.ok) {
+        alert("User registered successfully ✅");
+      }
       reset();
     } catch (err) {
       console.error(err);
-      setServerError("something went wrong,please try again!");
+      setServerError(
+        err?.data?.message || "Something went wrong, please try again!"
+      );
     }
   };
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center bg-gray-50 p-4">
-      <div className="max-w-lg w-full bg-white rounded-2xl shadow-lg p-4.5">
+      <div className="max-w-lg w-full bg-white rounded-2xl shadow-lg p-6">
         <h2 className="text-2xl font-semibold mb-2 text-gray-800 text-center">
           Create account
         </h2>
@@ -58,7 +57,7 @@ export default function RegisterForm() {
           </label>
           <input
             type="text"
-            {...register("name", { required: "name is required" })}
+            {...register("name", { required: "Name is required" })}
             placeholder="Your full name"
             className={`w-full px-4 py-2 rounded-lg border ${
               errors.name ? "border-red-400" : "border-gray-200"
@@ -78,7 +77,7 @@ export default function RegisterForm() {
               required: "Phone number is required",
               pattern: {
                 value: /^[0-9]{11}$/,
-                message: "please enter valid phone no. ",
+                message: "Please enter a valid 11 digit phone number",
               },
             })}
             placeholder="01XXXXXXXXX"
@@ -100,7 +99,7 @@ export default function RegisterForm() {
               required: "Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                message: "please enter valid email",
+                message: "Please enter a valid email",
               },
             })}
             placeholder="you@example.com"
@@ -142,10 +141,10 @@ export default function RegisterForm() {
           <input
             type="password"
             {...register("password", {
-              required: "password is required",
+              required: "Password is required",
               minLength: {
                 value: 6,
-                message: "minimum 6 creacters",
+                message: "Minimum 6 characters",
               },
             })}
             placeholder="******"
@@ -162,17 +161,17 @@ export default function RegisterForm() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isLoading}
             className="w-full py-2 mt-4 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold shadow hover:brightness-95 disabled:opacity-60"
           >
-            {isSubmitting ? "Registering..." : "Register"}
+            {isLoading ? "Registering..." : "Register"}
           </button>
         </form>
 
         <div className="mt-6 text-sm text-center text-gray-600">
           Already have an account?{" "}
           <Link href={"/auth/login"} className="text-indigo-600 font-medium">
-            please login
+            Please login
           </Link>
         </div>
       </div>
