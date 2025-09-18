@@ -109,6 +109,7 @@ import { useGetTransportsQuery } from "@/app/redux/features/transport/transportA
 import { Clock, MapPin, User } from "lucide-react";
 import TransportDetails from "../components/transportDetails/TransportDetails";
 import Button from "../components/button/Button";
+import Link from "next/link";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -194,13 +195,14 @@ const SearchPage = () => {
                   <p className="mt-2 font-bold text-blue-600">
                     <span className="text-2xl font-semibold">৳</span> {t.price}
                   </p>
-
-                  <div className="flex md:justify-end">
-                    {/* <button className="px-2 mt-2 rounded-md py-2 bg-blue-600 hover:bg-blue-500 text-white">
+                  <Link href={"../auth/login"}>
+                    <div className="flex md:justify-end">
+                      {/* <button className="px-2 mt-2 rounded-md py-2 bg-blue-600 hover:bg-blue-500 text-white">
                       Booking
-                    </button> */}
-                    <Button title={"Booking"} />
-                  </div>
+                    </button> */}{" "}
+                      <Button title={"Booking"} />
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
